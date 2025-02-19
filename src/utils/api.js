@@ -17,3 +17,15 @@ export const getCommentsByArticleId = (article_id) => {
     .get(`/articles/${article_id}/comments`)
     .then((res) => res.data.comments);
 };
+
+export const voteOnArticle = (article_id, voteChange) => {
+  return api
+    .patch(`/articles/${article_id}`, { inc_votes: voteChange })
+    .then((res) => res.data);
+};
+
+export const voteOnComment = (comment_id, voteChange) => {
+  return api
+    .patch(`/comments/${comment_id}`, { inc_votes: voteChange })
+    .then((res) => res.data);
+};
