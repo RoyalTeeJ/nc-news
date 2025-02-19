@@ -1,17 +1,23 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getArticleById } from "../utils/api";
+import { getArticleById, getCommentsByArticleId } from "../utils/api";
+import CommentCard from "./CommentCard";
 
 const ArticlePage = () => {
   const { article_id } = useParams();
   const [article, setArticle] = useState(null);
+  const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    getArticleById(article_id)
-      .then((article) => {
-        setArticle(article);
+    Promise.all([
+      getArticleById(article_id),
+      getCommentsByArticleId(article_id),
+    ])
+      .then(([articleData, commentsData]) => {
+        setArticle(articleData);
+        setComments(commentsData);
         setLoading(false);
       })
       .catch((err) => {
@@ -26,15 +32,32 @@ const ArticlePage = () => {
   return (
     <div className="article-container">
       <h1>{article.title}</h1>
-      <p>By: {article.author}</p>
+      <p>
+        <strong>By:</strong> {article.author}
+      </p>
       <img
         src={article.article_img_url}
         alt={article.title}
         className="article-image"
       />
       <p>{article.body}</p>
-      <p>Votes: {article.votes}</p>
-      <p>Comments: {article.comment_count}</p>
+      <p>
+        <strong>Votes:</strong> {article.votes}
+      </p>
+      <p>
+        <strong>Comments:</strong> {article.comment_count}
+      </p>
+
+      <h2>Comments</h2>
+      <div className="comments-container">
+        {comments.length > 0 ? (
+          comments.map((comment) => (
+            <CommentCard key={comment.comment_id} comment={comment} />
+          ))
+        ) : (
+          <p>No comments yet. Be the first to comment!</p>
+        )}
+      </div>
     </div>
   );
 };
