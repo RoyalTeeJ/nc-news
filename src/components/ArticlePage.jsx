@@ -1,22 +1,15 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import {
-  getArticleById,
-  getCommentsByArticleId,
-  voteOnArticle,
-} from "../utils/api";
-import CommentCard from "./CommentCard";
+import { getArticleById, voteOnArticle } from "../utils/api";
+import CommentsSection from "./CommentsSection";
 
 const ArticlePage = () => {
   const { article_id } = useParams();
   const [article, setArticle] = useState(null);
-  const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [voteChange, setVoteChange] = useState(0);
   const [voteError, setVoteError] = useState(null);
-  const [showComments, setShowComments] = useState(false);
-  const [commentsLoading, setCommentsLoading] = useState(false);
 
   useEffect(() => {
     getArticleById(article_id)
@@ -29,22 +22,6 @@ const ArticlePage = () => {
         setLoading(false);
       });
   }, [article_id]);
-
-  const toggleComments = () => {
-    if (!showComments) {
-      setCommentsLoading(true);
-      getCommentsByArticleId(article_id)
-        .then((commentsData) => {
-          setComments(commentsData);
-          setCommentsLoading(false);
-        })
-        .catch((err) => {
-          setError(err.message);
-          setCommentsLoading(false);
-        });
-    }
-    setShowComments((prev) => !prev);
-  };
 
   const handleVote = (change) => {
     setVoteChange((prev) => prev + change);
@@ -71,6 +48,8 @@ const ArticlePage = () => {
         className="article-image"
       />
       <p>{article.body}</p>
+
+      {/* Vote Section */}
       <h2>Article Votes:</h2>
       <span className="vote-count">{article.votes + voteChange}</span>
       <div className="vote-section-articlepage">
@@ -94,23 +73,8 @@ const ArticlePage = () => {
         <strong>Total Comments:</strong> {article.comment_count}
       </p>
 
-      <button className="comments-toggle" onClick={toggleComments}>
-        {showComments ? "Hide Comments ⬆️" : "Show Comments ⬇️"}
-      </button>
-
-      {showComments && (
-        <div className="comments-container">
-          {commentsLoading ? (
-            <p>Loading comments...</p>
-          ) : comments.length > 0 ? (
-            comments.map((comment) => (
-              <CommentCard key={comment.comment_id} comment={comment} />
-            ))
-          ) : (
-            <p>No comments yet. Be the first to comment!</p>
-          )}
-        </div>
-      )}
+      {/* Comments Section */}
+      <CommentsSection article_id={article_id} />
     </div>
   );
 };
