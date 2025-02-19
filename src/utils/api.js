@@ -29,3 +29,9 @@ export const voteOnComment = (comment_id, voteChange) => {
     .patch(`/comments/${comment_id}`, { inc_votes: voteChange })
     .then((res) => res.data);
 };
+
+export const postComment = (article_id, username, body) => {
+  return api
+    .post(`/articles/${article_id}/comments`, { username, body })
+    .then((res) => res.data.comment);
+};
