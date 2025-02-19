@@ -23,12 +23,10 @@ const ArticlesList = () => {
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <div>
-      <div className="articles-container">
-        {articles.map((article) => (
-          <ArticleCard key={article.article_id} article={article} />
-        ))}
-      </div>
+    <div className="articles-container">
+      {articles.map((article) => (
+        <ArticleCard key={article.article_id} article={article} />
+      ))}
     </div>
   );
 };
