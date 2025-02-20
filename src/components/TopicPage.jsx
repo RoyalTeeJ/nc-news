@@ -1,8 +1,10 @@
-import { useState, useEffect } from "react";
-import ArticleCard from "./ArticleCard";
-import { getArticles } from "../utils/api.js";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import ArticleCard from "../components/ArticleCard";
+import { getArticlesByTopic } from "../utils/api";
 
-const ArticlesList = () => {
+const TopicPage = () => {
+  const { topic_slug } = useParams();
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -11,27 +13,28 @@ const ArticlesList = () => {
   const [allArticlesLoaded, setAllArticlesLoaded] = useState(false);
 
   useEffect(() => {
-    getArticles()
-      .then((articles) => {
-        setArticles(articles);
+    getArticlesByTopic(topic_slug, 1)
+      .then((articlesData) => {
+        setArticles(articlesData);
         setLoading(false);
+        if (articlesData.length < 10) setAllArticlesLoaded(true);
       })
       .catch((err) => {
         setError(err.message);
         setLoading(false);
       });
-  }, []);
+  }, [topic_slug]);
 
   const loadMoreArticles = () => {
     setLoadingMore(true);
-    getArticles(page + 1)
+    const nextPage = page + 1;
+
+    getArticlesByTopic(topic_slug, nextPage)
       .then((newArticles) => {
-        if (newArticles.length < 10) {
-          setAllArticlesLoaded(true);
-        }
+        if (newArticles.length < 10) setAllArticlesLoaded(true);
 
         setArticles((prev) => [...prev, ...newArticles]);
-        setPage((prev) => prev + 1);
+        setPage(nextPage);
         setLoadingMore(false);
       })
       .catch((err) => {
@@ -44,13 +47,14 @@ const ArticlesList = () => {
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <>
-      <h1 className="title-homepage">Our Articles</h1>
+    <div className="topic-page">
+      <h2>Articles about {topic_slug}</h2>
       <div className="articles-container">
         {articles.map((article) => (
           <ArticleCard key={article.article_id} article={article} />
         ))}
       </div>
+
       {!allArticlesLoaded && (
         <div className="show-more-container">
           <button
@@ -62,8 +66,8 @@ const ArticlesList = () => {
           </button>
         </div>
       )}
-    </>
+    </div>
   );
 };
 
-export default ArticlesList;
+export default TopicPage;
