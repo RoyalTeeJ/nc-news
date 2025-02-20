@@ -11,6 +11,8 @@ const ArticlePage = () => {
   const [voteChange, setVoteChange] = useState(0);
   const [voteError, setVoteError] = useState(null);
 
+  const currentUser = "jessjelly";
+
   useEffect(() => {
     getArticleById(article_id)
       .then((articleData) => {
@@ -50,7 +52,7 @@ const ArticlePage = () => {
       <p>{article.body}</p>
 
       {/* Vote Section */}
-      <h2>Article Votes:</h2>
+      <h2>Article Likes:</h2>
       <span className="vote-count">{article.votes + voteChange}</span>
       <div className="vote-section-articlepage">
         <button
@@ -74,7 +76,7 @@ const ArticlePage = () => {
       </p>
 
       {/* Comments Section */}
-      <CommentsSection article_id={article_id} />
+      <CommentsSection article_id={article_id} currentUser={currentUser} />
     </div>
   );
 };
