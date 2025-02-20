@@ -8,6 +8,9 @@ const CommentsSection = ({ article_id, currentUser }) => {
   const [showComments, setShowComments] = useState(false);
   const [commentsLoading, setCommentsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [page, setPage] = useState(1);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [allCommentsLoaded, setAllCommentsLoaded] = useState(false);
 
   const toggleComments = () => {
     if (!showComments) {
@@ -33,6 +36,24 @@ const CommentsSection = ({ article_id, currentUser }) => {
     setComments((prevComments) =>
       prevComments.filter((comment) => comment.comment_id !== comment_id)
     );
+  };
+
+  const loadMoreComments = () => {
+    setLoadingMore(true);
+    getCommentsByArticleId(article_id, page + 1)
+      .then((newComments) => {
+        if (newComments.length < 10) {
+          setAllCommentsLoaded(true);
+        }
+
+        setComments((prev) => [...prev, ...newComments]);
+        setPage((prev) => prev + 1);
+        setLoadingMore(false);
+      })
+      .catch((err) => {
+        setError(err.message);
+        setLoadingMore(false);
+      });
   };
 
   return (
@@ -69,6 +90,18 @@ const CommentsSection = ({ article_id, currentUser }) => {
               <p>No comments yet. Be the first to comment!</p>
             )}
           </div>
+
+          {!allCommentsLoaded && (
+            <div className="show-more-container">
+              <button
+                className="show-more-btn"
+                onClick={loadMoreComments}
+                disabled={loadingMore}
+              >
+                {loadingMore ? "Loading..." : "Show More"}
+              </button>
+            </div>
+          )}
         </>
       )}
     </section>
