@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { postComment } from "../utils/api";
 
-const CommentForm = ({ article_id, addNewComment }) => {
+const CommentForm = ({ article_id, addNewComment, currentUser }) => {
   const [newComment, setNewComment] = useState("");
   const [posting, setPosting] = useState(false);
   const [commentError, setCommentError] = useState(null);
@@ -18,7 +18,7 @@ const CommentForm = ({ article_id, addNewComment }) => {
     setCommentError(null);
     setSuccessMessage(null);
 
-    postComment(article_id, "jessjelly", newComment)
+    postComment(article_id, currentUser, newComment)
       .then((newCommentData) => {
         addNewComment(newCommentData);
         setNewComment("");

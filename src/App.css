@@ -1,3 +1,4 @@
+/* Articles list page styling */
 .articles-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -56,6 +57,7 @@
   border-top: 1px solid #ddd;
 }
 
+/* article page main info styling */
 .article-container {
   max-width: 800px;
   margin: 40px auto;
@@ -75,6 +77,7 @@
   color: inherit;
 }
 
+/* Show comments box styling */
 .comments-toggle {
   display: block;
   width: 100%;
@@ -93,6 +96,7 @@
   background: #0056b3;
 }
 
+/* comments card styling */
 .comments-container {
   margin-top: 20px;
   padding: 10px;
@@ -122,6 +126,7 @@
   color: #666;
 }
 
+/* Extra vote styling */
 .vote-section {
   display: flex;
   align-items: center;
@@ -151,6 +156,7 @@
   box-sizing: border-box;
 }
 
+/* Submit button styling for post comment */
 .submit-btn-wrapper {
   display: flex;
   justify-content: flex-end;
@@ -190,6 +196,7 @@
   font-size: 0.9rem;
 }
 
+/* All votes buttons */
 .vote-btn {
   background: #ddd;
   border: none;
@@ -249,10 +256,68 @@
   margin-top: 5px;
 }
 
+/* comment count in articlepage */
 .comment-count {
   font-size: 1rem;
   font-weight: bold;
   color: #007bff;
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Modal Box */
+.modal {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+/* Modal Buttons */
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.modal-btn {
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  border: none;
+  transition: 0.2s ease-in-out;
+}
+
+.modal-btn.confirm {
+  background: #dc3545;
+  color: white;
+}
+
+.modal-btn.confirm:hover {
+  background: #a71d2a;
+}
+
+.modal-btn.cancel {
+  background: gray;
+  color: white;
+}
+
+.modal-btn.cancel:hover {
+  background: #555;
 }
 
 @media (max-width: 1024px) {

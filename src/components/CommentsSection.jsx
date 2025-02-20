@@ -3,7 +3,7 @@ import CommentForm from "./CommentForm";
 import { getCommentsByArticleId } from "../utils/api.js";
 import { useState } from "react";
 
-const CommentsSection = ({ article_id }) => {
+const CommentsSection = ({ article_id, currentUser }) => {
   const [comments, setComments] = useState([]);
   const [showComments, setShowComments] = useState(false);
   const [commentsLoading, setCommentsLoading] = useState(false);
@@ -29,6 +29,12 @@ const CommentsSection = ({ article_id }) => {
     setComments((prevComments) => [newComment, ...prevComments]);
   };
 
+  const removeComment = (comment_id) => {
+    setComments((prevComments) =>
+      prevComments.filter((comment) => comment.comment_id !== comment_id)
+    );
+  };
+
   return (
     <section>
       {/* Comments Toggle */}
@@ -39,7 +45,11 @@ const CommentsSection = ({ article_id }) => {
       {/* Comments Section and Comment Form */}
       {showComments && (
         <>
-          <CommentForm article_id={article_id} addNewComment={addNewComment} />
+          <CommentForm
+            article_id={article_id}
+            addNewComment={addNewComment}
+            currentUser={currentUser}
+          />
 
           <div className="comments-container">
             {commentsLoading ? (
@@ -48,7 +58,12 @@ const CommentsSection = ({ article_id }) => {
               <p className="error">{error}</p>
             ) : comments.length > 0 ? (
               comments.map((comment) => (
-                <CommentCard key={comment.comment_id} comment={comment} />
+                <CommentCard
+                  key={comment.comment_id}
+                  comment={comment}
+                  currentUser={currentUser}
+                  removeComment={removeComment}
+                />
               ))
             ) : (
               <p>No comments yet. Be the first to comment!</p>
