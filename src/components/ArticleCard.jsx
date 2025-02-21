@@ -43,7 +43,12 @@ const ArticleCard = ({ article }) => {
             👎
           </button>
         </div>
-        <span className="comment-count">💬 {article.comment_count}</span>
+        <Link
+          to={`/articles/${article.article_id}#comments`}
+          className="comment-count"
+        >
+          💬 {article.comment_count}
+        </Link>
       </div>
       {voteError && <p className="vote-error">{voteError}</p>}
     </div>
