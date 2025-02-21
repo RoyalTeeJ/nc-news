@@ -4,9 +4,13 @@ const api = axios.create({
   baseURL: "https://royalteej-be-nc-news.onrender.com/api",
 });
 
-export const getArticles = (page = 1) => {
+export const getArticles = (
+  page = 1,
+  sort_by = "created_at",
+  order = "DESC"
+) => {
   return api
-    .get(`/articles?limit=10&page=${page}`)
+    .get(`/articles?limit=10&page=${page}&sort_by=${sort_by}&order=${order}`)
     .then((res) => res.data.article);
 };
 
@@ -42,9 +46,16 @@ export const deleteComment = (comment_id) => {
   return api.delete(`/comments/${comment_id}`).then((res) => res.data);
 };
 
-export const getArticlesByTopic = (topic, page = 1) => {
+export const getArticlesByTopic = (
+  topic,
+  page = 1,
+  sort_by = "created_at",
+  order = "DESC"
+) => {
   return api
-    .get(`/articles?topic=${topic}&limit=10&page=${page}`)
+    .get(
+      `/articles?topic=${topic}&limit=10&page=${page}&sort_by=${sort_by}&order=${order}`
+    )
     .then((res) => res.data.article);
 };
 
