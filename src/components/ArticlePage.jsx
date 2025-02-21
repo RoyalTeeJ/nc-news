@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { getArticleById, voteOnArticle } from "../utils/api";
 import CommentsSection from "./CommentsSection";
@@ -10,6 +10,7 @@ const ArticlePage = () => {
   const [error, setError] = useState(null);
   const [voteChange, setVoteChange] = useState(0);
   const [voteError, setVoteError] = useState(null);
+  const commentsRef = useRef(null);
 
   const currentUser = "jessjelly";
 
@@ -34,6 +35,12 @@ const ArticlePage = () => {
       setVoteError("Failed to update vote. Please try again.");
     });
   };
+
+  useEffect(() => {
+    if (window.location.hash === "#comments" && commentsRef.current) {
+      commentsRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [article]);
 
   if (loading) return <p className="loading">Loading article...</p>;
   if (error) return <p className="error">Error: {error}</p>;
@@ -76,7 +83,9 @@ const ArticlePage = () => {
       </p>
 
       {/* Comments Section */}
-      <CommentsSection article_id={article_id} currentUser={currentUser} />
+      <div ref={commentsRef}>
+        <CommentsSection article_id={article_id} currentUser={currentUser} />
+      </div>
     </div>
   );
 };

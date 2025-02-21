@@ -143,6 +143,34 @@
   background: #f0f0f0;
 }
 
+/* Sorting Controls */
+.sort-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.sort-controls select {
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 0.8rem;
+}
+
+.toggle-order-btn {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 5px 5px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: 0.2s ease-in-out;
+}
+
+.toggle-order-btn:hover {
+  background: #0056b3;
+}
+
 /* Topic Page */
 .topic-page {
   text-align: center;
