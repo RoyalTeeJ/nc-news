@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { getTopics } from "../utils/api";
+import "./Navbar.css";
 
 const Navbar = () => {
   const [topics, setTopics] = useState([]);
@@ -31,36 +32,48 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="navbar">
-      <Link to="/" className="nav-link home-link">
-        🏠 Home
-      </Link>
+    <header className="sticky-header">
+      <div className="header-container">
+        {/* 🔹 Logo */}
+        <div className="logo">
+          <Link to="/">NC News</Link>
+        </div>
 
-      {/* Dropdown Menu */}
-      <div className="dropdown" ref={dropdownRef}>
-        <button
-          className="dropdown-btn"
-          onClick={() => setShowDropdown(!showDropdown)}
-        >
-          📂 Explore Topics ▼
-        </button>
-        {showDropdown && (
-          <ul className="dropdown-menu">
-            {topics.map((topic) => (
-              <li key={topic.slug}>
-                <Link
-                  to={`/topics/${topic.slug}`}
-                  className="dropdown-item"
-                  onClick={handleTopicClick}
-                >
-                  {topic.slug}
-                </Link>
-              </li>
-            ))}
+        {/* 🔹 Navigation Menu */}
+        <nav>
+          <ul>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+
+            {/* 🔹 Dropdown Menu for Topics */}
+            <li className="dropdown" ref={dropdownRef}>
+              <button
+                className="dropdown-btn"
+                onClick={() => setShowDropdown(!showDropdown)}
+              >
+                Explore Topics ▼
+              </button>
+              {showDropdown && (
+                <ul className="dropdown-menu">
+                  {topics.map((topic) => (
+                    <li key={topic.slug}>
+                      <Link
+                        to={`/topics/${topic.slug}`}
+                        className="dropdown-item"
+                        onClick={handleTopicClick}
+                      >
+                        🔹 {topic.slug}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
           </ul>
-        )}
+        </nav>
       </div>
-    </nav>
+    </header>
   );
 };
 

@@ -1,0 +1,127 @@
+/* 🔹 Sticky Header */
+.sticky-header {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(to top, black, orange);
+  font-family: Arial, sans-serif;
+  color: white;
+  padding: 15px 0;
+  z-index: 1000;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* 🔹 Flexbox Layout */
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* 🔹 Logo */
+.logo {
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.logo a {
+  text-decoration: none;
+  color: white;
+}
+
+/* 🔹 Navigation */
+nav ul {
+  list-style-type: none;
+  display: flex;
+  gap: 20px;
+}
+
+/* 🔹 Navigation Links */
+nav ul li a {
+  text-decoration: none;
+  color: white;
+  font-size: 18px;
+  font-weight: 500;
+  padding: 10px 20px;
+  transition: all 0.3s ease;
+  border-radius: 4px;
+}
+
+/* 🔹 Hover Effect */
+nav ul li a:hover {
+  background-color: #ffa500;
+  color: black;
+}
+
+/* 🔹 Dropdown Button */
+.dropdown-btn {
+  background: none;
+  color: white;
+  border: none;
+  text-align: center;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border-radius: 4px;
+}
+
+.dropdown {
+  position: relative; /* Keeps dropdown positioned relative to button */
+}
+
+.dropdown-btn:hover {
+  background-color: #ffa500;
+  color: black;
+}
+
+/* 🔹 Dropdown Menu */
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #333;
+  list-style: none;
+  padding: 10px;
+  border-radius: 5px;
+  border: 2px solid #ffa500;
+  margin-top: 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 🔹 Dropdown Items */
+.dropdown-item {
+  display: column;
+  padding: 8px 10px;
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.dropdown-item:hover {
+  background: #f0f0f0;
+}
+
+/* 🔹 Prevent Content Overlap */
+body {
+  padding-top: 80px; /* Adjust based on navbar height */
+  margin: 0;
+}
+
+/* 🔹 Mobile Responsiveness */
+@media (max-width: 768px) {
+  .header-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .dropdown-menu {
+    position: relative;
+    width: 100%;
+    text-align: center;
+  }
+}

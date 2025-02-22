@@ -8,7 +8,7 @@ import "./App.css";
 const App = () => {
   return (
     <Router>
-      <div className="app-container">
+      <div>
         <Navbar />
 
         <Routes>
